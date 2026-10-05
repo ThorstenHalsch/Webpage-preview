@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EventCard from '../components/EventCard.astro';
+import Icon from '../components/Icon.astro';
+import { href } from '../lib/paths';
+const events = await getCollection('veranstaltungen');
+const now = new Date();
+const upcoming = events.filter(event => event.data.status === 'upcoming' && event.data.date >= now).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const archive = events.filter(event => event.data.status === 'archive' || event.data.date < now).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+<BaseLayout title="Termine & Veranstaltungen">
+  <section class="container page-intro"><a class="back-link" href={href()}>← Zur Startseite</a><span class="eyebrow">Termine & Veranstaltungen</span><h1>Gute Zeiten<br />stehen im Kalender.</h1><p>Ein Abend im Biergarten, gemeinsam unterwegs sein oder am Wasserrad mithelfen. Hier kommen wir zusammen.</p></section>
+  <section class="container" aria-labelledby="regular-title"><div class="gathering-card"><div class="gathering-icon"><Icon name="calendar" size={34} /></div><div class="gathering-copy"><span class="eyebrow">Regelmäßig</span><h2 id="regular-title" style="font-size:1.7rem;margin-bottom:15px">Wasserradstammtisch</h2><p>Jeden ersten Mittwoch im Monat treffen wir uns in der Fischküche Reck, Oberndorf 7, Möhrendorf. Bei schönem Wetter auch an unserem Wasserrad. Frag gerne nach dem nächsten Treffpunkt.</p></div><a class="button button-dark" href={href('kontakt/')}>Nachfragen <Icon name="arrow" /></a></div></section>
+  <section class="section container" aria-labelledby="upcoming-title"><div class="archive-heading"><h2 id="upcoming-title">Kommende Veranstaltungen</h2></div>{upcoming.length > 0 ? <div class="event-grid">{upcoming.map(event => <EventCard event={event} />)}</div> : <div class="notice">Sobald das nächste Jahresprogramm feststeht, findest du hier die neuen Termine. Für Fragen zu geplanten Veranstaltungen sind unsere Ansprechpartner gerne für dich da.</div>}</section>
+  <section class="section section-tinted" aria-labelledby="archive-title"><div class="container"><div class="archive-heading"><div><span class="eyebrow">Ein Blick zurück</span><h2 id="archive-title">Aus dem Jahresprogramm 2025</h2></div><span>Vergangene Termine · Auswahl</span></div><p style="margin-bottom:28px;max-width:700px">Diese Termine stammen aus dem veröffentlichten Jahresprogramm 2025. Sie sind als Archiv aufgeführt und keine aktuellen Einladungen.</p><div class="event-grid">{archive.map(event => <EventCard event={event} />)}</div></div></section>
+</BaseLayout>

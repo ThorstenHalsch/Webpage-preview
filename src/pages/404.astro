@@ -1,0 +1,6 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { href } from '../lib/paths';
+---
+<BaseLayout title="Seite nicht gefunden"><section class="container page-intro" style="min-height:60vh"><span class="eyebrow">404 · Hier geht es nicht weiter</span><h1>Zurück in<br />gute Gesellschaft.</h1><p>Diese Seite gibt es leider nicht. Auf unserer Startseite findest du zurück zum Verein, zu den Terminen und zum Wasserrad.</p><a class="button button-dark" href={href()} style="margin-top:28px">Zur Startseite <Icon name="arrow" /></a></section></BaseLayout>
