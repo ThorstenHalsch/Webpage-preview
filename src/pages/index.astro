@@ -1,0 +1,47 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import EventCard from '../components/EventCard.astro';
+import hero from '../assets/wasserrad-aufbau.webp';
+import wheel from '../assets/wasserrad.webp';
+import { href } from '../lib/paths';
+const now = new Date();
+const upcoming = (await getCollection('veranstaltungen')).filter(event => event.data.status === 'upcoming' && event.data.date >= now).sort((a, b) => a.data.date.getTime() - b.data.date.getTime()).slice(0, 3);
+---
+<BaseLayout title="Gute Zeiten. Gute Gesellschaft.">
+  <section class="hero container">
+    <div class="hero-copy">
+      <span class="location-label"><span class="status-dot"></span> Oberndorf. An der Regnitz.</span>
+      <h1>Gute Zeiten.<br />Gute <span class="hero-word">Gesellschaft.</span></h1>
+      <p>Wir bringen Menschen zusammen. Für gemeinsame Erlebnisse, lebendige Traditionen und ein Stück Heimat, das uns verbindet.</p>
+      <div class="hero-actions"><a class="button button-dark" href={href('termine/')}>Termine entdecken <Icon name="arrow" /></a><a class="text-link" href={href('verein/')}>Das sind wir <Icon name="diagonal" size={18} /></a></div>
+      <div class="hero-signature"><span class="signature-line"></span> Verein Zufriedenheit Oberndorf e. V.</div>
+    </div>
+    <div class="hero-visual">
+      <Image src={hero} alt="Das Kleine Schäferrad am Ufer der Regnitz in Oberndorf" widths={[400, 600, 808]} sizes="(max-width: 899px) 100vw, 50vw" loading="eager" fetchpriority="high" class="hero-image" />
+      <div class="heritage-badge"><span>Gemeinsam</span><strong>seit 1899</strong><Icon name="sun" size={26} /></div>
+      <div class="photo-caption"><span>Unser Stück Heimat</span><strong>Das Kleine Schäferrad.</strong><a href={href('wasserrad/')} class="round-link" aria-label="Das Kleine Schäferrad kennenlernen"><Icon name="diagonal" size={24} /></a></div>
+    </div>
+  </section>
+  <div class="values-strip"><div class="container"><span><Icon name="people" /> Gemeinschaft, die verbindet</span><span><Icon name="waves" /> An der Regnitz zuhause</span><span><Icon name="sun" /> Offen für neue Gesichter</span></div></div>
+  <section class="section container" aria-labelledby="together-title">
+    <div class="section-heading"><div><span class="eyebrow">Das macht uns aus</span><h2 id="together-title">Zusammen ist<br />einfach mehr drin.</h2></div><p>Ein gutes Gespräch. Ein gemeinsamer Ausflug. Etwas bewegen. Zufriedenheit hat bei uns viele Seiten.</p></div>
+    <div class="feature-grid">
+      <a class="feature-card" href={href('verein/')}><span class="feature-icon"><Icon name="people" size={27} /></span><span class="feature-number">01</span><h3>Geselligkeit leben.</h3><p>Beim Stammtisch, im Biergarten oder bei einem gemeinsamen Essen. Hier nehmen wir uns Zeit füreinander.</p><span class="card-link">Unser Vereinsleben <Icon name="diagonal" /></span></a>
+      <a class="feature-card" href={href('termine/')}><span class="feature-icon"><Icon name="sun" size={27} /></span><span class="feature-number">02</span><h3>Gemeinsam unterwegs.</h3><p>Ausflüge, Wanderungen und neue Eindrücke. Die schönsten Erinnerungen entstehen zusammen.</p><span class="card-link">Termine & Erlebnisse <Icon name="diagonal" /></span></a>
+      <a class="feature-card feature-card-green" href={href('wasserrad/')}><span class="feature-icon"><Icon name="waves" size={27} /></span><span class="feature-number">03</span><h3>Heimat bewahren.</h3><p>Wir kümmern uns ehrenamtlich um das Kleine Schäferrad – und halten ein Stück Geschichte in Bewegung.</p><span class="card-link">Unser Wasserrad <Icon name="diagonal" /></span></a>
+    </div>
+  </section>
+  <section class="section section-tinted" aria-labelledby="events-title"><div class="container">
+    <div class="section-heading"><div><span class="eyebrow">Zeit füreinander</span><h2 id="events-title">Wir sehen uns.</h2></div><a class="text-link" href={href('termine/')}>Alle Termine <Icon name="arrow" /></a></div>
+    {upcoming.length > 0 ? <div class="event-grid">{upcoming.map(event => <EventCard event={event} />)}</div> : <div class="gathering-card"><div class="gathering-icon"><Icon name="calendar" size={34} /></div><div class="gathering-copy"><span class="eyebrow">Unser regelmäßiger Treffpunkt</span><h3>Wasserradstammtisch</h3><p>Jeden ersten Mittwoch im Monat in der Fischküche Reck in Oberndorf. Bei schönem Wetter treffen wir uns auch an unserem Wasserrad.</p><span class="gathering-location"><Icon name="pin" size={17} /> Oberndorf · Möhrendorf</span></div><a class="button button-dark" href={href('kontakt/')}>Kontakt aufnehmen <Icon name="arrow" /></a></div>}
+    <p class="section-note">Weitere Veranstaltungen findest du im Jahresprogramm. Kommende Termine ergänzen wir hier, sobald sie feststehen.</p>
+  </div></section>
+  <section class="section container wheel-section" aria-labelledby="wheel-title">
+    <div class="wheel-photo"><Image src={wheel} alt="Wasser fließt aus den Kümpfen des Kleinen Schäferrads in die Regnitz" widths={[400, 600, 808]} sizes="(max-width: 899px) 100vw, 50vw" loading="lazy" /><span class="image-label"><Icon name="waves" size={18} /> Das Kleine Schäferrad</span></div>
+    <div class="wheel-copy"><span class="eyebrow">Unser Herzstück</span><h2 id="wheel-title">Geschichte,<br />die sich weiterdreht.</h2><p>Das Kleine Schäferrad gehört zu Oberndorf. Seit 1985 übernehmen wir seinen Auf- und Abbau und helfen, dieses besondere Kulturdenkmal zu erhalten.</p><p>Viele Hände, rund 600 Einzelteile und jede Menge Zusammenhalt. So bleibt Tradition lebendig.</p><a class="button button-outline" href={href('wasserrad/')}>Das Wasserrad entdecken <Icon name="diagonal" /></a><div class="wheel-facts"><div><strong>1985</strong><span>Beginn unserer Patenschaft</span></div><div><strong>~ 600</strong><span>Einzelteile, ein gemeinsames Ziel</span></div></div></div>
+  </section>
+  <section class="container join-section"><div class="join-panel"><div><span class="eyebrow">Neue Gesichter sind willkommen</span><h2>Ein guter Verein<br />beginnt mit dir.</h2><p>Du möchtest uns kennenlernen oder mit anpacken?<br class="desktop-break" /> Wir freuen uns auf deine Nachricht.</p></div><a class="button button-lime" href={href('kontakt/#mitmachen')}>Lernen wir uns kennen <Icon name="diagonal" /></a><span class="join-decoration" aria-hidden="true">+</span></div></section>
+</BaseLayout>

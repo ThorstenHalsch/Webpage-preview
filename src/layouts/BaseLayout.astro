@@ -1,0 +1,24 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { href } from '../lib/paths';
+import '@fontsource-variable/manrope';
+import '../styles/global.css';
+interface Props { title: string; description?: string; }
+const { title, description = 'Gemeinschaft, Vereinsleben und das Kleine Schäferrad: Entdecke den Verein Zufriedenheit Oberndorf e. V. in Möhrendorf.' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · VZO Oberndorf</title><meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" /><meta name="theme-color" content="#193e35" />
+    <meta property="og:title" content={`${title} · VZO Oberndorf`} /><meta property="og:description" content={description} /><meta property="og:type" content="website" /><meta property="og:locale" content="de_DE" />
+    <link rel="canonical" href={canonical} /><link rel="icon" type="image/svg+xml" href={href('favicon.svg')} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Direkt zum Inhalt</a><Header />
+    <main id="main"><slot /></main><Footer />
+  </body>
+</html>

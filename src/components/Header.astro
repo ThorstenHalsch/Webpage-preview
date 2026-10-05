@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets';
+import crest from '../assets/vereinswappen.webp';
+import Icon from './Icon.astro';
+import { href } from '../lib/paths';
+const links = [
+  { label: 'Unser Verein', path: 'verein/' },
+  { label: 'Termine', path: 'termine/' },
+  { label: 'Wasserrad', path: 'wasserrad/' },
+  { label: 'Kontakt', path: 'kontakt/' },
+];
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={href()} aria-label="Verein Zufriedenheit Oberndorf – Startseite">
+      <Image src={crest} alt="" width={40} height={58} loading="eager" />
+      <span>Zufriedenheit<span class="brand-location">Oberndorf <span class="brand-year">seit 1899</span></span></span>
+    </a>
+    <button class="menu-toggle" aria-controls="site-navigation" aria-expanded="false" aria-label="Menü öffnen">
+      <span class="menu-toggle-label">Menü</span><span class="menu-lines" aria-hidden="true"><i></i><i></i></span>
+    </button>
+    <nav id="site-navigation" class="site-nav" aria-label="Hauptnavigation">
+      {links.map(link => <a href={href(link.path)} aria-current={Astro.url.pathname === href(link.path) ? 'page' : undefined}>{link.label}</a>)}
+      <a class="button button-dark nav-cta" href={href('kontakt/#mitmachen')}>Dabei sein <Icon name="diagonal" size={17} /></a>
+    </nav>
+  </div>
+</header>
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const navigation = document.querySelector<HTMLElement>('#site-navigation');
+  function closeMenu(returnFocus = false) {
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', 'Menü öffnen');
+    navigation?.classList.remove('is-open');
+    if (returnFocus) toggle?.focus();
+  }
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+    navigation?.classList.toggle('is-open', open);
+  });
+  navigation?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => closeMenu()));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') closeMenu(true);
+  });
+  document.addEventListener('click', event => {
+    if (event.target instanceof Node && !event.target.parentElement?.closest('.header-inner')) closeMenu();
+  });
+  window.matchMedia('(min-width: 900px)').addEventListener('change', () => closeMenu());
+</script>

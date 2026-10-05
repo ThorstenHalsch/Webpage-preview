@@ -1,0 +1,14 @@
+---
+import { href } from '../lib/paths';
+import Icon from './Icon.astro';
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div><a class="footer-brand" href={href()}>Zufriedenheit.<br />Seit 1899.</a><p>Gemeinschaft leben.<br />Heimat bewahren.</p></div>
+      <div class="footer-links"><span class="eyebrow">Entdecken</span><a href={href('verein/')}>Unser Verein</a><a href={href('termine/')}>Termine</a><a href={href('wasserrad/')}>Das Wasserrad</a></div>
+      <div class="footer-contact"><span class="eyebrow">Wir freuen uns auf dich</span><a href={href('kontakt/')} class="footer-contact-link">Lass uns zusammenkommen <Icon name="diagonal" /></a><p>Oberndorf · Möhrendorf<br />An der Regnitz zuhause.</p></div>
+    </div>
+    <div class="footer-bottom"><span>© {new Date().getFullYear()} Verein Zufriedenheit Oberndorf e. V.</span><div><a href={href('impressum/')}>Impressum</a><a href={href('datenschutz/')}>Datenschutz</a><a href="https://www.verein-zufriedenheit.com/">Bisherige Website <span aria-hidden="true">↗</span></a></div></div>
+  </div>
+</footer>

@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { href } from '../lib/paths';
+---
+<BaseLayout title="Impressum">
+  <section class="container page-intro"><a class="back-link" href={href()}>← Zur Startseite</a><span class="eyebrow">Rechtliches</span><h1>Impressum</h1></section>
+  <section class="container prose"><h2>Verein Zufriedenheit Oberndorf e. V.</h2><address>Zeisigweg 9<br />91096 Möhrendorf</address><h2>Vertreten durch</h2><p>Hans Joachim Weis, 1. Vorstand</p><h2>Vereinsregister</h2><p>VR 200928<br />Registergericht: Fürth</p><h2>Kontakt</h2><p>Telefon: <a href="tel:+4991319725812">+49 (0)9131 9725812</a><br />E-Mail: <a href="mailto:vorstand1@verein-zufriedenheit.com">vorstand1@verein-zufriedenheit.com</a></p><p>Weitere Ansprechpartner findest du auf unserer <a href={href('kontakt/')}>Kontaktseite</a>.</p><h2>Verbraucherstreitschlichtung</h2><p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p></section>
+</BaseLayout>

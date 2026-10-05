@@ -1,0 +1,14 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+interface Props { event: CollectionEntry<'veranstaltungen'>; }
+const { event } = Astro.props;
+const { data } = event;
+const day = data.date.toLocaleDateString('de-DE', { day: '2-digit', timeZone: 'Europe/Berlin' });
+const month = data.date.toLocaleDateString('de-DE', { month: 'short', timeZone: 'Europe/Berlin' }).replace('.', '');
+---
+<article class="event-card">
+  <div class="event-top"><time datetime={data.date.toISOString().slice(0, 10)} class="date-tile"><strong>{day}</strong><span>{month} {data.date.getFullYear()}</span></time><span class="tag">{data.category}</span></div>
+  <h3>{data.title}</h3><p>{data.summary}</p>
+  <div class="event-meta"><span><Icon name="pin" size={17} />{data.location}</span>{data.time && <span><Icon name="clock" size={17} />{data.time} Uhr</span>}</div>
+</article>
